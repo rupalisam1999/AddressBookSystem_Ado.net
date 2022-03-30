@@ -6,7 +6,9 @@ namespace AddressBookSystem_Ado.net
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Welcome to AddressBookSystem using Ado.net");
+            AddressBookRepo addressBookRepo = new AddressBookRepo();
+            addressBookRepo.checkConnection();
         }
     }
 }
