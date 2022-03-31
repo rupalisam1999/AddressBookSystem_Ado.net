@@ -23,6 +23,7 @@ namespace AddressBookSystem_Ado.net
             addressBookRepo.addNewContactToDataBase(addressBookModel);
             addressBookRepo.UpdateExiContactToDataBase(addressBookModel, "Akash");
             addressBookRepo.deleteExiContactInDataBase("Akash");
+            addressBookRepo.personBelongingCityOrState();
         }
 
     }
