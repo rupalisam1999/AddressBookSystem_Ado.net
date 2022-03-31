@@ -175,8 +175,54 @@ namespace AddressBookSystem_Ado.net
                 this.connection.Close();
             }
         }
+        public void CountByCityAndState()
+        {
+            try
+            {
+                AddressBookModel addressBookModel = new AddressBookModel();
+                using (this.connection)
+                {
+                    using (SqlCommand command = new SqlCommand(
+                        @"select city,COUNT(city)from Address_Book group by city;
+                        select state, COUNT(state)from Address_Book group by state; ", connection))
+                    {
+                        this.connection.Open();
+                        using (SqlDataReader sqlDataReader = command.ExecuteReader())
+                        {
+                            while (sqlDataReader.Read())
+                            {
+                                addressBookModel.City = sqlDataReader.GetString(0);
+                                int countCIty = sqlDataReader.GetInt32(1);
+                                Console.WriteLine("{0},{1}", addressBookModel.City, countCIty);
+                                Console.WriteLine("\n");
+                            }
+                            if (sqlDataReader.NextResult())
+                            {
+                                while (sqlDataReader.Read())
+                                {
+                                    addressBookModel.State = sqlDataReader.GetString(0);
+                                    int stateCount = sqlDataReader.GetInt32(1);
+                                    Console.WriteLine("{0},{1}", addressBookModel.State, stateCount);
+                                    Console.WriteLine("\n");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
     }
 }
+   
+
     
 
 
