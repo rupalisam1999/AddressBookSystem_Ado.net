@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace AddressBookSystem_Ado.net
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace);
+                throw new Exception(e.Message);
             }
         }
         public bool addNewContactToDataBase(AddressBookModel addressBookModel)
@@ -52,7 +53,7 @@ namespace AddressBookSystem_Ado.net
                     return false;
                 }
             }
-            catch (Exception e)
+            catch (Exception e )
             {
                 throw new Exception(e.Message);
             }
@@ -100,5 +101,35 @@ namespace AddressBookSystem_Ado.net
                 this.connection.Close();
             }
         }
+        public bool deleteExiContactInDataBase(string firstName)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand cmd = new SqlCommand("SpAddAddressBookDetailsForDelete", this.connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FirstName", firstName);
+                    this.connection.Open();
+                    var result = cmd.ExecuteNonQuery();
+                    this.connection.Close();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
     }
 }
+    
+
